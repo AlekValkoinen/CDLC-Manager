@@ -1,0 +1,79 @@
+﻿<mah:MetroWindow x:Class="CDLC_Manager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Rocksmith CDLC Manager Alpha" Height="450" Width="800" MinWidth="800" MinHeight="450">
+    <Window.Resources>
+        <Style x:Key="CustomRichTextBoxStyle" TargetType="RichTextBox">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Foreground" Value="Green"/>
+            <Setter Property="Background" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="Green"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <TabControl Background="#FF2B2B2B">
+        <TabItem Name="MainTab" Header="Main Controls" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid x:Name="ControlGrid" Margin="0,0,0,0">
+                <RichTextBox x:Name="richTextBox" Style="{StaticResource CustomRichTextBoxStyle}" IsEnabled="False" Margin="0,0,200,35">
+                    <RichTextBox.Resources>
+                        <Style TargetType="Run">
+                            <Setter Property="FontFamily" Value="Consolas"/>
+                            <Setter Property="FontSize" Value="14"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                    <RichTextBox.Document>
+                        <FlowDocument>
+                        </FlowDocument>
+                    </RichTextBox.Document>
+                </RichTextBox>
+                <DockPanel Name="xferButtonsWrapPanel" Height="30" VerticalAlignment="Bottom" Margin="0,0,200,0">
+                    <Button x:Name="AbortButton" Content="Abort Transfer" DockPanel.Dock="Left" HorizontalAlignment="Left">
+                    </Button>
+                    <Button x:Name="TransferButton" Content="Start Transfer" DockPanel.Dock="Right" HorizontalAlignment="Right">
+
+                    </Button>
+                </DockPanel>
+                <StackPanel x:Name="ButtonPanel" Orientation="Vertical" Margin="0,0,6,0" HorizontalAlignment="Right" Width="184">
+                    <Button x:Name="CleanupContentButton" Content="Auto Organize CDLC folder" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0"/>
+                    <Button x:Name="AutoButton" Content="Auto Transfer" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" Padding="40,0,40,0">
+                        
+                    </Button>
+                    <GroupBox x:Name="SettingsBox" Header="Settings" Margin="0, 180">
+                        <StackPanel x:Name="CheckStackPanel">
+                            <CheckBox x:Name="SaveOrginalCB" Content="Save Original">
+                            </CheckBox>
+                            <CheckBox Name="AutoSortCB" Content="Auto sort transfers"></CheckBox>
+                            <CheckBox Name="AutoBackupCB" Content="Auto Back up (Experimental)"></CheckBox>
+                        </StackPanel>
+
+                    </GroupBox>
+                </StackPanel>
+
+
+            </Grid>
+        </TabItem>
+        <TabItem Name="SettingsTab" Header="Settings">
+            <Grid x:Name="SettingsGrid">
+                <Button x:Name="SetDLCFolderButton" Content="Set DLC folder" Margin="0,27,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                </Button>
+                <Label Content="(This program creates a CDLC folder inside of the DLC folder, This helps keep things tidy)" Margin="0,125,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"></Label>
+                <Label Content="Current DLC Directory:" Margin="0,63,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"></Label>
+                <RichTextBox x:Name="DLCFolderDisplayRTB" Style="{StaticResource CustomRichTextBoxStyle}" Margin="0,98,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="394"></RichTextBox>
+                <Button x:Name="SetDownloadDirectoryButton" Content="Set Download Directory" Margin="0,163,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
+                <RichTextBox x:Name="DownloadFolderDisplayRTB" Style="{StaticResource CustomRichTextBoxStyle}" Margin="0,201,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="393"></RichTextBox>
+            </Grid>
+
+        </TabItem>
+        <Grid/>
+
+    </TabControl>
+</mah:MetroWindow>
