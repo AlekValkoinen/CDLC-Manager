@@ -1,4 +1,5 @@
-﻿using ControlzEx.Theming;
+﻿using CDLC_Manager.FileTools;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -25,11 +26,40 @@ namespace CDLC_Manager
     {
         private bool auto = false;
         private FileSystemWatcher FS = new FileSystemWatcher();
+        //private FileHandling fileHandler = new FileHandling();
         public MainWindow()
         {
             InitializeComponent();
             ThemeManager.Current.ChangeTheme(this, "Dark.Steel");
             Settings.Settings_Manager.checkForSettings(richTextBox, SaveOrginalCB, AutoSortCB, TransferButton, AutoBackupCB);
+            TransferButton.Click += TransferButton_Click;
+        }
+
+        private void TransferButton_Click(object sender, RoutedEventArgs e)
+        {
+            //FileHandling fileHandling = new FileHandling();
+            FileHandling.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
+            //fileHandling.
+        }
+
+        private void SetDLCFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetDownloadDirectoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CleanupContentButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AbortButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
