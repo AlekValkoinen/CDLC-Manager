@@ -22,7 +22,7 @@ namespace CDLC_Manager.FileTools
         //public static event UpdateProgressEventHandler raiseUpdateEvent;
        // public delegate void StringTransferEvent(object sender, TextEventExtension e);
         //public static event StringTransferEvent RaiseStringTransferEvent;
-        private static bool WorkerSetup = false;
+        //private static bool WorkerSetup = false;
         private static Brush errorColor = new SolidColorBrush(Colors.Red);
         private static Brush nonErrColor = new SolidColorBrush (Colors.Green);
         //public static void onRaiseStringTransferEvent(object sender, TextEventExtension e)
@@ -58,25 +58,25 @@ namespace CDLC_Manager.FileTools
             try
             {
                 //var files = Directory.EnumerateFiles(settings[0], ext, SearchOption.AllDirectories);
-                string[] files = Directory.GetFiles(Settings_Manager.settings[0], ext);
+                string[] files = Directory.GetFiles(SettingsManager.settings[0], ext);
 
                 //we now have a list of files, the first thing we need to do is check the drive to see if it's a basic move, or a copy op.
                 //I'm also going to check if the cbSaveOriginal is checked, I should actually put this all in a helper class.
 
-                if (Path.GetPathRoot(Settings_Manager.settings[0]) == Path.GetPathRoot(Settings_Manager.settings[1]) && cbSaveOrig.IsChecked != true)
+                if (Path.GetPathRoot(SettingsManager.settings[0]) == Path.GetPathRoot(SettingsManager.settings[1]) && cbSaveOrig.IsChecked != true)
                 {
 
                     foreach (string file in files)
                     {
 
-                        string fileName = file.Substring(Settings_Manager.settings[0].Length + 1);
+                        string fileName = file.Substring(SettingsManager.settings[0].Length + 1);
                         DataHelpers.print("FILENAME: " + fileName, text);
-                        string message = Path.Combine(Settings_Manager.settings[0], file).ToString();
+                        string message = Path.Combine(SettingsManager.settings[0], file).ToString();
                         DataHelpers.print("Preparing to move: " + message, text);
                         //if they are saving originals or have previously this can become a dangerous operation, Check the destination to see if the file exists.
-                        if (!File.Exists(Path.Combine(Settings_Manager.getCdlcFolder(), fileName)))
+                        if (!File.Exists(Path.Combine(SettingsManager.getCdlcFolder(), fileName)))
                         {
-                            Directory.Move(file, Path.Combine(Settings_Manager.getCdlcFolder(), fileName));
+                            Directory.Move(file, Path.Combine(SettingsManager.getCdlcFolder(), fileName));
                             DataHelpers.print("Moved: " + message, text);
                         }
                         else
@@ -92,20 +92,20 @@ namespace CDLC_Manager.FileTools
                     foreach (string file in files)
                     {
 
-                        string fileName = file.Substring(Settings_Manager.settings[0].Length + 1);
+                        string fileName = file.Substring(SettingsManager.settings[0].Length + 1);
                         DataHelpers.print("FILENAME: " + fileName, text);
-                        string message = Path.Combine(Settings_Manager.settings[0], file).ToString();
+                        string message = Path.Combine(SettingsManager.settings[0], file).ToString();
                         DataHelpers.print("Preparing to move: " + message, text);
 
                         //again check to make sure the file doesn't already exist
 
 
-                        if (!File.Exists(Path.Combine(Settings_Manager.getCdlcFolder(), fileName)))
+                        if (!File.Exists(Path.Combine(SettingsManager.getCdlcFolder(), fileName)))
                         {
-                            File.Copy(Path.Combine(Settings_Manager.settings[0], fileName), Path.Combine(Settings_Manager.getCdlcFolder(), fileName), true);
+                            File.Copy(Path.Combine(SettingsManager.settings[0], fileName), Path.Combine(SettingsManager.getCdlcFolder(), fileName), true);
                             //print("copied: " + message);
                             //verify the file now exists in destination.
-                            if (File.Exists(Path.Combine(Settings_Manager.getCdlcFolder(), fileName)))
+                            if (File.Exists(Path.Combine(SettingsManager.getCdlcFolder(), fileName)))
                             {
                                 DataHelpers.print("File copied successfully, removing source", text);
 
@@ -131,11 +131,14 @@ namespace CDLC_Manager.FileTools
                     }
                 }
 
-                if ((bool)cbAutoSort.IsChecked)
+                if (cbAutoSort != null)
                 {
-                    cleanup(text);
+                    if (cbAutoSort?.IsChecked == true)
+                    {
+                        cleanup(text);
+                    } 
                 }
-                if ((bool)cbMakeBackup.IsChecked)
+                if (cbMakeBackup?.IsChecked == true)
                 {
                     //MainProgramRef.RaiseAbortEvent += HandleAbortAsync;
                     //setupFileWorker();
@@ -158,7 +161,7 @@ namespace CDLC_Manager.FileTools
         {
             //DataHelpers.print("Source Path is: " + Settings_Manager.getCdlcFolder(), Color.OrangeRed, text);
             //DataHelpers.print("Destination Path is: " + Settings_Manager.getBackupPath(), Color.OrangeRed, text);
-            CopyDirectories(Settings_Manager.getCdlcFolder(), Settings_Manager.getBackupPath(), true, sender, e);
+            CopyDirectories(SettingsManager.getCdlcFolder(), SettingsManager.getBackupPath(), true, sender, e);
         }
 
         //private static void setupFileWorker()
@@ -364,7 +367,7 @@ namespace CDLC_Manager.FileTools
 
         private static void cleanup(RichTextBox text)
         {
-            string path = Settings_Manager.settings[1] + Settings_Manager.dlcAppend;
+            string path = SettingsManager.settings[1] + SettingsManager.dlcAppend;
             string[] files = Directory.GetFiles(path, "*psarc");
             List<string> toDelete = new List<string>();
             foreach (string f in files)
@@ -394,9 +397,8 @@ namespace CDLC_Manager.FileTools
                 else
                 {
                     //print("Debug Cleanup function point 2", Color.Blue);
-#pragma warning disable IDE0059 // Unnecessary assignment of a value
-                    DirectoryInfo di = Directory.CreateDirectory(Path.Combine(path, bandName));
-#pragma warning restore IDE0059 // Unnecessary assignment of a value
+
+                    Directory.CreateDirectory(Path.Combine(path, bandName));
                     Directory.Move(f, Path.Combine(bandFolder, fileName));
                 }
 
@@ -417,10 +419,10 @@ namespace CDLC_Manager.FileTools
         {
             prepareTransfer(text, cbSaveOrig, cbAutoSort, cbMakeBackup);
         }
-        //public static void ReqCleanup(RichTextBox text)
-        //{
-        //    cleanup(text);
-        //}
+        public static void ReqCleanup(RichTextBox text)
+        {
+            cleanup(text);
+        }
         //public static void ReqBackup(CDLCReNamer MainProgramRef)
         //{
         //    MainProgramRef.RaiseAbortEvent += HandleAbortAsync;

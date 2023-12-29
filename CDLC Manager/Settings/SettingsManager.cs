@@ -9,7 +9,7 @@ using System.Windows.Controls;
 namespace CDLC_Manager.Settings
 {
 
-    internal static class Settings_Manager
+    public static class SettingsManager
     {
 
 
@@ -133,11 +133,11 @@ namespace CDLC_Manager.Settings
             }
             //print(settings[2]);
             //print(settings[3]);
-#pragma warning disable IDE0075 // Can be simplified, I find this more readable.
+ // Can be simplified, I find this more readable.
             cbSaveOrig.IsChecked = settings[2] == "1" ? true : false;
             cbAuto.IsChecked = settings[3] == "1" ? true : false;
             cbMakeBackup.IsChecked = settings[5] == "1" ? true : false;
-#pragma warning restore IDE0075 // Simplify conditional expression
+ // Simplify conditional expression
 
 
 
@@ -145,7 +145,30 @@ namespace CDLC_Manager.Settings
             checkReady(btnTransfer);
         }
 
-
+        public static void setOrganize(CheckBox checkBox)
+        {
+            // settings[3]
+            if(checkBox?.IsChecked == true)
+            {
+                settings[3] = "1";
+            }
+            else
+            {
+                settings[3] = "0";
+            }
+        }
+        public static void setSaveOriginal(CheckBox checkBox)
+        {
+            //save original is settings[2]
+            if (checkBox?.IsChecked == true)
+            {
+                settings[2] = "1";
+            }
+            else
+            {
+                settings[2] = "0";
+            }
+        }
         private static void writeSettings(Button btnTransfer, RichTextBox text)
         {
             if (configPath != null)
@@ -259,6 +282,11 @@ namespace CDLC_Manager.Settings
         public static string getBackupPath()
         {
             return settings[4] + "\\cdlc";
+        }
+        public static bool setRocksmithFolder(string path)
+        {
+            settings[0] = path;
+            return true;
         }
         public static void requestWriteSettings(Button btnTransfer, RichTextBox text)
         {

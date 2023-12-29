@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace CDLC_Manager.Helpers
 {
@@ -48,6 +49,15 @@ namespace CDLC_Manager.Helpers
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US"); //This creates the cultural format to use. This can be expanded to an array later for localization.
             dateString = dateTime.ToString(Format, culture);
             return dateString;
+        }
+
+        //Setting the content of a richtextbox in modern C# is absolutely stupid. There is no reason it should be this annoying.
+        public static FlowDocument RTBDocuGen(string text)
+        {
+            FlowDocument document = new FlowDocument();
+            Paragraph paragraph = new Paragraph(new Run(text));
+            document.Blocks.Add(paragraph);
+            return document;
         }
     }
 }

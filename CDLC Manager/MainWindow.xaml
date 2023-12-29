@@ -44,18 +44,20 @@
                 </DockPanel>
                 <StackPanel x:Name="ButtonPanel" Orientation="Vertical" Margin="0,0,6,0" HorizontalAlignment="Right" Width="184">
                     <Button x:Name="CleanupContentButton" Content="Auto Organize CDLC folder" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" Click="CleanupContentButton_Click"/>
-                    <Button x:Name="AutoButton" Content="Auto Transfer" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" Padding="40,0,40,0">
+                    <Button x:Name="AutoButton" Content="Auto Transfer" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" Padding="40,0,40,0" Click="AutoButton_Click">
                         
-                    </Button>
-                    <GroupBox x:Name="SettingsBox" Header="Settings" Margin="0, 180">
+                    </Button> 
+                    <Label x:Name="Autolabel"  Content="Automatic" HorizontalAlignment="Center" Margin="0,20,0,0" Background="DarkRed"/>
+                    <GroupBox x:Name="SettingsBox" Header="Settings" Margin="0, 140">
                         <StackPanel x:Name="CheckStackPanel">
-                            <CheckBox x:Name="SaveOrginalCB" Content="Save Original">
+                            <CheckBox x:Name="SaveOrginalCB" Content="Save Original" Checked="SaveOrginalCB_Checked">
                             </CheckBox>
-                            <CheckBox Name="AutoSortCB" Content="Auto sort transfers"></CheckBox>
+                            <CheckBox Name="AutoSortCB" Content="Auto sort transfers" Checked="AutoSortCB_Checked"></CheckBox>
                             <CheckBox Name="AutoBackupCB" Content="Auto Back up (Experimental)"></CheckBox>
                         </StackPanel>
 
                     </GroupBox>
+                   
                 </StackPanel>
 
 
