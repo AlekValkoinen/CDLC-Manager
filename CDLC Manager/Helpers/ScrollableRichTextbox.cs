@@ -36,15 +36,15 @@ namespace CDLC_Manager.Helpers
             }
         }
 
-        private ScrollViewer GetScrollViewer()
+        private ScrollViewer? GetScrollViewer()
         {
             DependencyObject obj = this;
             while (obj != null && obj is not ScrollViewer)
             {
                 obj = VisualTreeHelper.GetParent(obj);
             }
-
-            return obj as ScrollViewer;
+            //This can be null if the object is not a scrollviewer, however where this is passing itself in as the obj, in theory it should never be null, however the warning should handled by declaring as nullable, then in reality I should null check it before returning it.
+                return obj as ScrollViewer;
         }
     }
 }

@@ -40,16 +40,10 @@ namespace CDLC_Manager.Settings
         //We're going to check for a setting file in AppData, for out program, If they don't exist, we're going to create them.
         public static void checkForSettings(RichTextBox text, CheckBox cbSaveOrig, CheckBox cbAuto, Button btnTransfer, CheckBox cbMakeBackup)
         {
-            //before we get started we want the local AppData path, this uses the System Namespace.
-            //This will allow us to set the destination in a nice folder there. So let's do that first.
             string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             //Now we create a variable with the "company" name for this I'm using OMD during development, Using caps in a directory is inherently a windows thing, Linux cares more so the convention is don't us caps or space on Linux filesystems. This is a strictly windows APP so it's fine to do caps)
             string orgFolder = FolderPath + "\\OMD";
 
-            //DEBUG
-            //print("DEBUG: AppdataPath: " + FolderPath);
-            //print("DEBUG: ORG Path: " + orgFolder);
-            //good, now we check if the path exists.
 
             //now the try catch block to check if the file exists, If it does, return, if it doesn't, create it, if creation fails, throw exception error"
             try
@@ -80,11 +74,7 @@ namespace CDLC_Manager.Settings
 
             }
             AppDataPath = orgFolder;
-
-            //time not to get or create the settings file
-            //we'll set the file to config.txt remember you use a double \\ to denote a backslack in a string rather than an escape sequence
             configPath = orgFolder + "\\config.txt";
-            //print(configPath);
             if (File.Exists(configPath))
             {
                 Helpers.DataHelpers.print("Config Files Exist. Attempting to restore previous settings", text);
@@ -131,16 +121,9 @@ namespace CDLC_Manager.Settings
             {
                 Helpers.DataHelpers.print("The RS Directory is not set.", text);
             }
-            //print(settings[2]);
-            //print(settings[3]);
- // Can be simplified, I find this more readable.
             cbSaveOrig.IsChecked = settings[2] == "1" ? true : false;
             cbAuto.IsChecked = settings[3] == "1" ? true : false;
             cbMakeBackup.IsChecked = settings[5] == "1" ? true : false;
- // Simplify conditional expression
-
-
-
             checkDlcDirectories(text, dlcAppend);
             checkReady(btnTransfer);
         }
@@ -228,9 +211,7 @@ namespace CDLC_Manager.Settings
                     }
                     else
                     {
-#pragma warning disable IDE0059 // Unnecessary assignment of a value
-                        DirectoryInfo di = Directory.CreateDirectory(settings[1] + dlcAppend);
-#pragma warning restore IDE0059 // Unnecessary assignment of a value
+                        Directory.CreateDirectory(settings[1] + dlcAppend);
                         string Time = Helpers.DataHelpers.ConvertDate(Directory.GetCreationTime(settings[1] + dlcAppend));
                         string debugMessage = "DEBUG: " + settings[1] + dlcAppend + " was created at " + Time + "\n";
                         Helpers.DataHelpers.print(debugMessage, text);

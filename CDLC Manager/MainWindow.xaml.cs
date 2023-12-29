@@ -134,15 +134,6 @@ namespace CDLC_Manager
                 });
             }
         }
-        //public void autoFile(object source, FileSystemEventArgs e)
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        BeginInvoke(new Action(() => { Helpers.DataHelpers.print("New Song Detected: " + e.Name, richTextBox); }));
-        //        FileHandling.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
-        //    }
-
-        //}
         private void setLabel()
         {
             Brush green = new SolidColorBrush(Colors.Green);
