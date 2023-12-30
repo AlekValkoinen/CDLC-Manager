@@ -46,7 +46,10 @@ namespace CDLC_Manager
         private void TransferButton_Click(object sender, RoutedEventArgs e)
         {
             //FileHandling fileHandling = new FileHandling();
-            FileHandling.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
+            using (FileHandling fh = new FileHandling(richTextBox))
+            {
+                fh.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB); 
+            }
             //fileHandling.
         }
 
@@ -82,7 +85,10 @@ namespace CDLC_Manager
 
         private void CleanupContentButton_Click(object sender, RoutedEventArgs e)
         {
-            FileHandling.ReqCleanup(richTextBox);
+            using (FileHandling fh = new FileHandling(richTextBox))
+            {
+                fh.ReqCleanup(richTextBox); 
+            }
         }
 
         private void AbortButton_Click(object sender, RoutedEventArgs e)
@@ -120,18 +126,21 @@ namespace CDLC_Manager
         }
         public void autoFile(object source, FileSystemEventArgs e)
         {
-            if (Dispatcher.CheckAccess())
+            using (FileHandling fh = new FileHandling(richTextBox))
             {
-                Helpers.DataHelpers.print("New Song Detected: " + e.Name, richTextBox);
-                FileHandling.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
-            }
-            else
-            {
-                Dispatcher.Invoke(() =>
+                if (Dispatcher.CheckAccess())
                 {
                     Helpers.DataHelpers.print("New Song Detected: " + e.Name, richTextBox);
-                    FileHandling.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
-                });
+                    fh.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
+                }
+                else
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        Helpers.DataHelpers.print("New Song Detected: " + e.Name, richTextBox);
+                        fh.ReqTransfer(richTextBox, SaveOrginalCB, AutoSortCB, AutoBackupCB);
+                    });
+                } 
             }
         }
         private void setLabel()
